@@ -1,6 +1,8 @@
 package main
 
 import (
+	"api/auth/db"
+	"api/auth/models"
 	"api/auth/routes"
 	"net/http"
 
@@ -8,6 +10,12 @@ import (
 )
 
 func main() {
+
+	//vamos a conectar con la base de datos
+	db.DBConnection()
+
+	//vamos a crear las tablas
+	db.DB.AutoMigrate(models.UserAuth{})
 
 	//acá se cre un objeto ruta del modulo mux
 	router := mux.NewRouter()
@@ -17,10 +25,11 @@ func main() {
 	//el primero es la ruta a la cual se va a dirigir
 	//el segundo recibe la funcion de lo que va a responder
 	//responde con una funcion
-	//la funcion es como una funcion flecha y recibe 2 parametros
-	//request y response, del modulo http, el de toda la vida
-	//ahora mandamos por el response un .write
-	router.HandleFunc("/", routes.HelloHome)
+	router.HandleFunc("/", routes.Test).Methods("GET")
+	router.HandleFunc("/Email", routes.VerfyEmail).Methods("GET")
+	router.HandleFunc("/User", routes.Register).Methods("POST")
+	router.HandleFunc("/User", routes.Loggin).Methods("GET")
+	router.HandleFunc("/Auth", routes.Auth).Methods("GET")
 
 	//inicializamos el servidor
 	//recibe el puerto y el router inicializador
