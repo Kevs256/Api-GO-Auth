@@ -1,19 +1,20 @@
 package models
 
 type Documentacion struct {
-	Titulo      string     `json:"titulo"`
-	Uso         string     `json:"Uso"`
-	URL         string     `json:"url"`
-	Descripcion string     `json:"descripcion"`
-	Tecnologias []string   `json:"tecnologias"`
-	Cancion1    string     `json:"cancion1"`
-	Cancion2    string     `json:"cancion2"`
-	Cancion3    string     `json:"cancion3"`
-	IP          string     `json:"ip"`
-	Puerto      string     `json:"puerto"`
-	RutaInicial string     `json:"ruta_inicial"`
-	Endpoints   []Endpoint `json:"endpoints"`
-	Notas       []string   `json:"notas"`
+	Titulo         string     `json:"titulo"`
+	Uso            string     `json:"Uso"`
+	NotaImportante string     `json:"NotaImportante"`
+	URL            string     `json:"url"`
+	Descripcion    string     `json:"descripcion"`
+	Tecnologias    []string   `json:"tecnologias"`
+	Cancion1       string     `json:"cancion1"`
+	Cancion2       string     `json:"cancion2"`
+	Cancion3       string     `json:"cancion3"`
+	IP             string     `json:"ip"`
+	Puerto         string     `json:"puerto"`
+	RutaInicial    string     `json:"ruta_inicial"`
+	Endpoints      []Endpoint `json:"endpoints"`
+	Notas          []string   `json:"notas"`
 }
 
 type Endpoint struct {

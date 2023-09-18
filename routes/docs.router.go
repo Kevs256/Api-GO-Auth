@@ -8,17 +8,18 @@ import (
 
 func Docs(reponse http.ResponseWriter, request *http.Request) {
 	documentacion := models.Documentacion{
-		Titulo:      "Documentación de Api-GO-Auth - by keds256",
-		Uso:         "Por favor poner una extension de visulizar JSON para visualizar correctamente",
-		URL:         "https://github.com/Kevs256/Api-GO-Auth.git",
-		Descripcion: "Esta basura de json busca documentar/explicar el funcionamiento de mi api para el servicio de autenticación de usuarios.",
-		Tecnologias: []string{"go", "mux", "gorm", "postgres", "docker"},
-		Cancion1:    "https://youtu.be/IoSBNZE7VSE?si=gNb8X_X_6Tzf0Ue3",
-		Cancion2:    "https://youtu.be/xMTUxIBxoHk?si=NqH_IBNmZ2LjNY4j",
-		Cancion3:    "https://youtu.be/VRPxao3e_jY?si=Zmf_JcaBla_R4phm",
-		IP:          "Aun no definida",
-		Puerto:      "Aun no definido",
-		RutaInicial: "ip:puerto/",
+		Titulo:         "Documentación de Api-GO-Auth - by keds256",
+		Uso:            "Por favor poner una extension de visulizar JSON para visualizar correctamente",
+		NotaImportante: "La maquina donde está el servicio tiene menos de una giga de memoria, por favor ser prudente al usarla, tampoco hacer registro innecesarios, en caso de necesitar añadir registro directos, o eliminar alguno comuniquese con el numero al final de la pagina",
+		URL:            "https://github.com/Kevs256/Api-GO-Auth.git",
+		Descripcion:    "Esta basura de json busca documentar/explicar el funcionamiento de mi api para el servicio de autenticación de usuarios.",
+		Tecnologias:    []string{"go", "mux", "gorm", "postgres", "docker"},
+		Cancion1:       "https://youtu.be/IoSBNZE7VSE?si=gNb8X_X_6Tzf0Ue3",
+		Cancion2:       "https://youtu.be/xMTUxIBxoHk?si=NqH_IBNmZ2LjNY4j",
+		Cancion3:       "https://youtu.be/VRPxao3e_jY?si=Zmf_JcaBla_R4phm",
+		IP:             "Aun no definida",
+		Puerto:         "Aun no definido",
+		RutaInicial:    "ip:puerto/",
 		Endpoints: []models.Endpoint{
 			{
 				URL:               "/",
