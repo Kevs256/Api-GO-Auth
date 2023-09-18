@@ -4,15 +4,31 @@ import (
 	"api/auth/db"
 	"api/auth/models"
 	"api/auth/routes"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
 
+	//variable globales
+	if err := godotenv.Load("./.env"); err != nil {
+		log.Fatal(err)
+	}
+
+	//tomamos variables de entorno
+	IP_DB := os.Getenv("IP_DB")
+	PORT_DB := os.Getenv("PORT_DB")
+	USER_DB := os.Getenv("USER_DB")
+	PASS_DB := os.Getenv("PASS_DB")
+	NAME_DB := os.Getenv("NAME_DB")
+
 	//vamos a conectar con la base de datos
-	db.DBConnection()
+	db.DBConnection(IP_DB, PORT_DB, USER_DB, PASS_DB, NAME_DB)
 
 	//vamos a crear las tablas
 	db.DB.AutoMigrate(models.UserAuth{})
