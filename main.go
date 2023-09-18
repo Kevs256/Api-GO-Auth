@@ -42,6 +42,7 @@ func main() {
 	//el segundo recibe la funcion de lo que va a responder
 	//responde con una funcion
 	router.HandleFunc("/", routes.Test).Methods("GET")
+	router.HandleFunc("/Docs", routes.Docs).Methods("GET")
 	router.HandleFunc("/Register", routes.Register).Methods("POST")
 	router.HandleFunc("/Login", routes.Loggin).Methods("GET")
 	router.HandleFunc("/Auth", routes.Auth).Methods("GET")
@@ -49,5 +50,5 @@ func main() {
 
 	//inicializamos el servidor
 	//recibe el puerto y el router inicializador
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":3001", router)
 }

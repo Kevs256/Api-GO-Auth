@@ -104,7 +104,7 @@ func Loggin(reponse http.ResponseWriter, request *http.Request) {
 	var finduser models.UserAuth
 	findUser := db.DB.First(&finduser, "email = ?", user.Email)
 	if errors.Is(findUser.Error, gorm.ErrRecordNotFound) {
-		fmt.Println("no fue encontrado")
+		fmt.Println("No fue encontrado")
 
 		//responde si no está registrado
 		reponse.WriteHeader(http.StatusBadRequest)
@@ -135,7 +135,7 @@ func Loggin(reponse http.ResponseWriter, request *http.Request) {
 			json.NewEncoder(reponse).Encode(&res)
 			return
 		} else {
-			fmt.Println("contraseña incorrecta")
+			fmt.Println("Contraseña incorrecta")
 			//responde si contraseña incorrecta
 			reponse.WriteHeader(http.StatusBadRequest)
 			res.Code = int(http.StatusBadRequest)
@@ -154,15 +154,23 @@ func Auth(reponse http.ResponseWriter, request *http.Request) {
 	json.NewDecoder(request.Body).Decode(&token_jwt)
 	fmt.Println("asda", token_jwt.Token_jwt)
 
-	//toma los claims de ese token, en este caso solo el id
-	id_user := services.ExtracClaimsJWT(token_jwt.Token_jwt)
-
 	//estructura de la respuesta
 	var res struct {
 		Code    int    `json:"code"`
 		Message string `json:"message"`
 		Id      int    `json:"id_user"`
 	}
+
+	if token_jwt.Token_jwt == "" {
+		reponse.WriteHeader(http.StatusBadRequest)
+		res.Code = int(http.StatusBadRequest)
+		res.Message = "No ha ingresado nada bobo"
+		json.NewEncoder(reponse).Encode(&res)
+		return
+	}
+
+	//toma los claims de ese token, en este caso solo el id
+	id_user := services.ExtracClaimsJWT(token_jwt.Token_jwt)
 
 	//si es cero el token no es valido
 	if id_user == 0 {
@@ -211,7 +219,7 @@ func UserById(reponse http.ResponseWriter, request *http.Request) {
 		findUser := db.DB.First(&finduser, "id = ?", id_user)
 
 		if errors.Is(findUser.Error, gorm.ErrRecordNotFound) {
-			fmt.Println("no fue encontrado")
+			fmt.Println("No fue encontrado")
 
 			//si no fue encontrado
 			reponse.WriteHeader(http.StatusBadRequest)
