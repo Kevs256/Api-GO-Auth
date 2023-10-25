@@ -47,8 +47,10 @@ func main() {
 	router.HandleFunc("/Login", routes.Loggin).Methods("POST")
 	router.HandleFunc("/Auth", routes.Auth).Methods("POST")
 	router.HandleFunc("/User/{id_user}", routes.UserById).Methods("POST")
+	router.HandleFunc("/User/find/email", routes.UserByEmail).Methods("POST")
+	router.HandleFunc("/User/delete/{id_user}", routes.DeleteUserById).Methods("POST")
 
 	//inicializamos el servidor
 	//recibe el puerto y el router inicializador
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":3001", router)
 }

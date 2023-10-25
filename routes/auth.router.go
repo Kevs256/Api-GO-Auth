@@ -243,4 +243,98 @@ func UserById(reponse http.ResponseWriter, request *http.Request) {
 	}
 }
 
+func UserByEmail(reponse http.ResponseWriter, request *http.Request) {
+	//tomamos de los parametos
+	var emailUser models.ReqEmailUser
+	json.NewDecoder(request.Body).Decode(&emailUser)
+
+	//estructura del mensaje
+	var res struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+		Id      int    `json:"id_user"`
+		Email   string `json:"email"`
+	}
+
+	//verificar si viene nulo por alguna extraña razon
+	if emailUser.User_email == "" {
+		fmt.Println("viene vacio")
+		reponse.WriteHeader(http.StatusBadRequest)
+		res.Code = int(http.StatusBadRequest)
+		res.Message = "Entrada invalida"
+		json.NewEncoder(reponse).Encode(&res)
+		return
+	} else {
+		var finduser models.UserAuth
+		findUser := db.DB.First(&finduser, "email = ?", emailUser.User_email)
+		if errors.Is(findUser.Error, gorm.ErrRecordNotFound) {
+			reponse.WriteHeader(http.StatusBadRequest)
+			res.Code = int(http.StatusBadRequest)
+			res.Message = "Usuario no encontrado"
+			json.NewEncoder(reponse).Encode(&res)
+			return
+		}
+		reponse.WriteHeader(http.StatusAccepted)
+		res.Code = int(http.StatusAccepted)
+		res.Id = int(finduser.ID)
+		res.Message = "Usuario encontado"
+		res.Email = finduser.Email
+		json.NewEncoder(reponse).Encode(&res)
+		return
+		//si no es nulo buscarlo en la db
+	}
+}
+
+func DeleteUserById(reponse http.ResponseWriter, request *http.Request) {
+	//tomamos de los parametos
+	id_userJson := mux.Vars(request)
+	id_user := id_userJson["id_user"]
+	fmt.Println(id_user)
+
+	//estructura del mensaje
+	var res struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+		Id      int    `json:"id_user"`
+		Email   string `json:"email"`
+	}
+
+	//verificar si viene nulo por alguna extraña razon
+	if id_user == "" {
+		fmt.Println("viene vacio")
+		reponse.WriteHeader(http.StatusBadRequest)
+		res.Code = int(http.StatusBadRequest)
+		res.Message = "Entrada invalida"
+		json.NewEncoder(reponse).Encode(&res)
+		return
+	} else {
+		//si no es nulo buscarlo en la db
+		var finduser models.UserAuth
+		findUser := db.DB.First(&finduser, "id = ?", id_user)
+
+		if errors.Is(findUser.Error, gorm.ErrRecordNotFound) {
+			fmt.Println("No fue encontrado")
+
+			//si no fue encontrado
+			reponse.WriteHeader(http.StatusBadRequest)
+			res.Code = int(http.StatusBadRequest)
+			res.Message = "Usuario no encontrado"
+			json.NewEncoder(reponse).Encode(&res)
+			return
+
+		} else {
+			db.DB.Delete(&finduser)
+			//responde con lo que encontró
+			reponse.WriteHeader(http.StatusAccepted)
+			res.Code = int(http.StatusAccepted)
+			res.Id = int(finduser.ID)
+			res.Message = "Usuario encontado y eliminado"
+			res.Email = finduser.Email
+			json.NewEncoder(reponse).Encode(&res)
+			return
+		}
+
+	}
+}
+
 //func RestorePassword() {}
